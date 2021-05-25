@@ -1,3 +1,6 @@
+# Fork
+Fork of the [repository by Ma et al.](https://github.com/XuezheMax/NeuroNLP2). Differences: fixes a small bug where the stack pointer parser would output invalid edge labels.
+
 # NeuroNLP2
 Deep neural models for core NLP tasks based on Pytorch(version 2)
 
