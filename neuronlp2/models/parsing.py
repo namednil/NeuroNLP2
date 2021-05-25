@@ -725,6 +725,12 @@ class StackPtrNet(nn.Module):
             child_index_expand = child_index.unsqueeze(2).expand(batch, num_hyp, type_space)
             # [batch, num_hyp, num_labels]
             out_type = self.bilinear(type_h.gather(dim=1, index=base_index_expand), type_c.gather(dim=1, index=child_index_expand))
+            
+            # changes - ml
+            out_type[:, :, 0] = -10e10 # index 0 is the padding token, see line 16 in conllx_data.py
+            out_type[:, :, 1] = -10e10 # index 0 is a ROOT token (but not the right one?), see line 16 in conllx_data.py
+            out_type[:, :, 2] = -10e10 # index 0 is the END token, see line 16 in conllx_data.py
+            
             hyp_type_scores = F.log_softmax(out_type, dim=2)
             # compute the prediction of types [batch, num_hyp]
             hyp_type_scores, hyp_types = hyp_type_scores.max(dim=2)
